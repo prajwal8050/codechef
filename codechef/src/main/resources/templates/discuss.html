@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="CodeChef Discuss. The community programming forum."/>
+    <title>Discuss | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f97316'/%3E%3Ctext x='6' y='24' font-size='22' font-weight='900' fill='white' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E"/>
+    <style>
+        .discuss-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--cc-border); }
+        .discuss-topic { background: white; border: 1px solid var(--cc-border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; transition: box-shadow .2s; }
+        .discuss-topic:hover { box-shadow: var(--cc-card-shadow); cursor: pointer; }
+        .topic-votes { display: flex; flex-direction: column; align-items: center; background: var(--cc-surface); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--cc-border); }
+        .topic-votes span { font-weight: 700; }
+        .topic-content { flex: 1; }
+        .topic-title { font-size: 16px; font-weight: 700; color: var(--cc-text); margin-bottom: 4px; }
+        .topic-meta { font-size: 12px; color: var(--cc-text-muted); display: flex; gap: 12px; }
+        .topic-tag { background: var(--cc-orange-light); color: var(--cc-orange); padding: 2px 8px; border-radius: 12px; font-weight: 600; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+        <ul class="navbar-nav">
+            <li><a th:href="@{/}">Practice</a></li>
+            <li><a th:href="@{/compete}">Compete</a></li>
+            <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a th:href="@{/discuss}" class="active">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+    <div class="navbar-right">
+        <div class="nav-search-box">
+             <input type="text" placeholder="Search discussions..."/>
+        </div>
+        <div th:if="${session.user == null}" style="display:flex; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+            <a th:href="@{/signup}" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div th:if="${session.user != null}" style="display:flex; align-items:center; gap:12px;">
+            <div class="user-avatar" th:title="${session.user.username}" th:text="${#strings.substring(session.user.username,0,1).toUpperCase()}">U</div>
+            <a th:href="@{/logout}" class="btn btn-outline btn-sm" style="border:none; color:var(--cc-text-muted);">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MAIN CONTENT ========== -->
+<div class="page-container" style="max-width: 900px;">
+    
+    <div class="discuss-header">
+        <div>
+            <h1 style="font-size: 26px; font-weight: 800; color: var(--cc-text);">Discuss</h1>
+            <p style="color: var(--cc-text-muted); font-size: 14px; margin-top: 4px;">Join the community. Ask questions, share knowledge, and learn.</p>
+        </div>
+        <button class="btn btn-primary" onclick="alert('Creating new topics is currently closed for maintenance.')">➕ New Topic</button>
+    </div>
+
+    <!-- Topics List (Mock Data) -->
+    <div class="discuss-topic">
+        <div class="topic-votes">
+            <span>▲</span>
+            <span>42</span>
+        </div>
+        <div class="topic-content">
+            <h3 class="topic-title">Editorial for Starters 125 (Division 2) is out now!</h3>
+            <div class="topic-meta">
+                <span>By <strong>admin</strong></span>
+                <span>• 2 hours ago</span>
+                <span>• 15 replies</span>
+            </div>
+        </div>
+        <div><span class="topic-tag">editorial</span></div>
+    </div>
+
+    <div class="discuss-topic">
+        <div class="topic-votes">
+            <span>▲</span>
+            <span>28</span>
+        </div>
+        <div class="topic-content">
+            <h3 class="topic-title">How to get better at dynamic programming?</h3>
+            <div class="topic-meta">
+                <span>By <strong>code_ninja</strong></span>
+                <span>• 5 hours ago</span>
+                <span>• 34 replies</span>
+            </div>
+        </div>
+        <div><span class="topic-tag">help</span></div>
+    </div>
+
+    <div class="discuss-topic">
+        <div class="topic-votes">
+            <span>▲</span>
+            <span>12</span>
+        </div>
+        <div class="topic-content">
+            <h3 class="topic-title">Python Time Limit Exceeded - Tips to optimize?</h3>
+            <div class="topic-meta">
+                <span>By <strong>py_dev99</strong></span>
+                <span>• 1 day ago</span>
+                <span>• 8 replies</span>
+            </div>
+        </div>
+        <div><span class="topic-tag">python</span></div>
+    </div>
+    
+    <div style="text-align:center; margin-top:30px;">
+        <button class="btn btn-outline" onclick="alert('No more discussions found.')">Load More Discussions</button>
+    </div>
+</div>
+
+</body>
+</html>
