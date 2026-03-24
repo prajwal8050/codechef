@@ -21,12 +21,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        HttpSession session,
+                        Model model) {
+
+        Optional<User> userOpt = userRepository
+                .findByUsernameOrEmail(username.trim(), username.trim());
+
+        if (userOpt.isPresent() && userOpt.get().getPassword().equals(password.trim())) {
             session.setAttribute("user", userOpt.get());
             return "redirect:/";
         }
+
         model.addAttribute("error", "Invalid username or password");
         return "login";
     }
