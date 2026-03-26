@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" th:content="${problem.title} + ' - Solve this coding problem on CodeChef Clone'"/>
+    <title th:text="${problem.title} + ' | CodeChef'">Problem | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f97316'/%3E%3Ctext x='6' y='24' font-size='22' font-weight='900' fill='white' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E"/>
+    <style>
+        body { overflow: hidden; }
+
+        /* override body overflow for this page only */
+        @media (max-width: 900px) {
+            body { overflow: auto; }
+            .problem-page { height: auto; }
+            .problem-statement-pane { max-height: 60vh; }
+            .editor-pane { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div>
+            CodeChef
+        </a>
+        <ul class="navbar-nav" style="margin-left: 20px;">
+            <li><a th:href="@{/}">Practice</a></li>
+            <li><a th:href="@{/compete}">Compete</a></li>
+            <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a th:href="@{/discuss}">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+
+    <!-- breadcrumb-style center -->
+    <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--cc-text-muted);">
+        <a href="/" style="color:var(--cc-orange);">Practice</a>
+        <span>›</span>
+        <span th:text="${problem.title}" style="color:var(--cc-text); max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Problem</span>
+    </div>
+
+    <div class="navbar-right">
+        <span th:class="'badge badge-' + ${#strings.toLowerCase(problem.difficulty)}"
+              th:text="${problem.difficulty}"
+              style="font-size:12px; padding:4px 12px; margin-right: 15px;">EASY</span>
+        
+        <div th:if="${session.user == null}" style="display:flex; gap:10px; margin-right:10px;">
+            <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+            <a th:href="@{/signup}" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div th:if="${session.user != null}" style="display:flex; align-items:center; gap:12px; margin-right:10px;">
+            <div class="user-avatar" th:title="${session.user.username}" th:text="${#strings.substring(session.user.username,0,1).toUpperCase()}" style="width:32px; height:32px; font-size:14px;">U</div>
+        </div>
+
+        <button class="btn btn-outline btn-sm" onclick="history.back()">← Back</button>
+    </div>
+</nav>
+
+<!-- ========== SPLIT PANE ========== -->
+<div class="problem-page">
+
+    <!-- LEFT: PROBLEM STATEMENT -->
+    <div class="problem-statement-pane">
+
+        <!-- Problem header -->
+        <div class="problem-header-info">
+            <h1 th:text="${problem.title}">Problem Title</h1>
+            <div class="problem-meta-pills">
+                <span class="meta-pill">
+                    ⏱ Time Limit: 1s
+                </span>
+                <span class="meta-pill">
+                    💾 Memory: 256MB
+                </span>
+                <span class="meta-pill" th:if="${problem.testcases != null and !problem.testcases.isEmpty()}">
+                    🧪 <span th:text="${problem.testcases.size()} + ' test cases'">1 test cases</span>
+                </span>
+                <span class="meta-pill">
+                    👁 Max Score: 100
+                </span>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="problem-section" th:if="${problem.description != null and !problem.description.isEmpty()}">
+            <h3>Problem Statement</h3>
+            <p th:text="${problem.description}">Description here.</p>
+        </div>
+
+        <!-- Input Format -->
+        <div class="problem-section" th:if="${problem.inputFormat != null and !problem.inputFormat.isEmpty()}">
+            <h3>Input Format</h3>
+            <p th:text="${problem.inputFormat}">Input format here.</p>
+        </div>
+
+        <!-- Output Format -->
+        <div class="problem-section" th:if="${problem.outputFormat != null and !problem.outputFormat.isEmpty()}">
+            <h3>Output Format</h3>
+            <p th:text="${problem.outputFormat}">Output format here.</p>
+        </div>
+
+        <!-- Constraints -->
+        <div class="problem-section" th:if="${problem.constraints != null and !problem.constraints.isEmpty()}">
+            <h3>Constraints</h3>
+            <p style="font-family:monospace; background:#f9fafb; padding:10px 14px; border-radius:6px; border:1px solid var(--cc-border);"
+               th:text="${problem.constraints}">1 ≤ N ≤ 10^9</p>
+        </div>
+
+        <!-- Examples from testcases -->
+        <div class="problem-section" th:if="${problem.testcases != null and !problem.testcases.isEmpty()}">
+            <h3>Sample Cases</h3>
+            <div th:each="tc, iter : ${problem.testcases}">
+                <div style="font-size:12px; font-weight:700; color:var(--cc-text-muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:.5px;"
+                     th:text="'Example ' + ${iter.index + 1}">Example 1</div>
+                <div class="problem-example" style="margin-bottom:14px;">
+                    <div class="example-row">
+                        <div class="example-box">
+                            <div class="example-label">Input</div>
+                            <div class="example-code" th:text="${tc.input}">5 10</div>
+                        </div>
+                        <div class="example-box">
+                            <div class="example-label">Output</div>
+                            <div class="example-code" th:text="${tc.expectedOutput}">15</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        <div style="padding-top:10px; border-top:1px solid var(--cc-border);">
+            <span style="font-size:12px; color:var(--cc-text-muted);">Tags: </span>
+            <span style="font-size:12px; background:var(--cc-orange-light); color:var(--cc-orange); padding:2px 10px; border-radius:20px; font-weight:600; margin-left:4px;">algorithms</span>
+            <span style="font-size:12px; background:#eff6ff; color:#1d4ed8; padding:2px 10px; border-radius:20px; font-weight:600; margin-left:4px;">math</span>
+        </div>
+    </div>
+
+    <!-- RIGHT: CODE EDITOR -->
+    <div class="editor-pane">
+
+        <!-- Toolbar -->
+        <div class="editor-toolbar">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <select class="lang-select" id="languageSelect">
+                    <option value="python">🐍 Python 3</option>
+                    <option value="java">☕ Java</option>
+                    <option value="cpp">⚙️ C++</option>
+                    <option value="c">C</option>
+                    <option value="javascript">JS Node</option>
+                </select>
+                <span style="color:#585b70; font-size:12px;">Auto-save: ON</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button class="btn btn-outline btn-sm" style="color:#cdd6f4; border-color:#3d3d4d; background:transparent;"
+                        onclick="resetCode()">↺ Reset</button>
+                <button class="btn btn-outline btn-sm" style="color:#cdd6f4; border-color:#3d3d4d; background:transparent;"
+                        onclick="toggleFullscreen()">⛶ Full</button>
+            </div>
+        </div>
+
+        <!-- Code Area -->
+        <textarea class="code-editor" id="codeEditor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+                  placeholder="# Write your solution here…
+
+# Example (Python 3):
+a, b = map(int, input().split())
+print(a + b)
+        ">a, b = map(int, input().split())
+print(a + b)</textarea>
+
+        <!-- I/O Panel -->
+        <div class="io-panel">
+            <div class="io-tabs">
+                <div class="io-tab active" id="tabIn"  onclick="showTab('in')">Custom Input</div>
+                <div class="io-tab"        id="tabOut" onclick="showTab('out')">Output</div>
+            </div>
+            <div id="panelIn">
+                <textarea class="io-content" id="customInput" style="width:100%; background:transparent; border:none; outline:none; color:#cba6f7; resize:none;"
+                          placeholder="Enter custom input here…"></textarea>
+            </div>
+            <div id="panelOut" style="display:none;">
+                <div class="io-content" id="outputContent" style="color:#a6e3a1;">
+                    — Output will appear here after running —
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="editor-footer">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button class="btn btn-outline btn-sm" id="runBtn"
+                        style="color:#cdd6f4; border-color:#3d3d4d; background:#2d2d3d;"
+                        onclick="runCode()">
+                    ▶ Run Code
+                </button>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div class="spinner" id="spinner"></div>
+                <button class="btn btn-success" id="submitBtn"
+                        th:attr="data-problem-id=${problem.id}"
+                        onclick="submitCode(this)">
+                    🚀 Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== RESULT TOAST ========== -->
+<div class="result-toast" id="resultToast">
+    <div id="resultIcon" style="font-size:20px; margin-bottom:6px;">🎯</div>
+    <div id="resultText" style="font-size:15px;">Checking…</div>
+    <div id="resultSub" style="font-size:12px; margin-top:4px; opacity:.7;"></div>
+</div>
+
+<script th:inline="javascript">
+    const problemId = /*[[${problem.id}]]*/ 1;
+
+    const defaultCode = {
+        python:     "# Update the code below to solve the problem\n\nimport sys\n\ndef main():\n    pass\n\nif __name__ == '__main__':\n    main()",
+        java:       "import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main {\n    public static void main (String[] args) throws java.lang.Exception {\n        // your code goes here\n    }\n}",
+        cpp:        "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    // your code goes here\n    return 0;\n}",
+        c:          "#include <stdio.h>\n\nint main() {\n    // your code goes here\n    return 0;\n}"
+    };
+
+    document.getElementById('languageSelect').addEventListener('change', function() {
+        document.getElementById('codeEditor').value = defaultCode[this.value] || '';
+    });
+
+    function resetCode() {
+        const lang = document.getElementById('languageSelect').value;
+        document.getElementById('codeEditor').value = defaultCode[lang] || '';
+    }
+
+    function showTab(tab) {
+        document.getElementById('tabIn').classList.toggle('active', tab === 'in');
+        document.getElementById('tabOut').classList.toggle('active', tab === 'out');
+        document.getElementById('panelIn').style.display  = tab === 'in'  ? '' : 'none';
+        document.getElementById('panelOut').style.display = tab === 'out' ? '' : 'none';
+    }
+
+    function runCode() {
+        showTab('out');
+        document.getElementById('outputContent').textContent = '⏳ Running…';
+        
+        const code = document.getElementById('codeEditor').value;
+        const language = document.getElementById('languageSelect').value;
+        const input = document.getElementById('customInput').value || '';
+
+        fetch('/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: code, language: language, input: input })
+        })
+        .then(r => r.text())
+        .then(result => {
+            document.getElementById('outputContent').textContent = result;
+        })
+        .catch(err => {
+            document.getElementById('outputContent').textContent = 'Error: ' + err.message;
+        });
+    }
+
+    function submitCode(btn) {
+        const code = document.getElementById('codeEditor').value;
+        const language = document.getElementById('languageSelect').value;
+
+        if (!code.trim()) { alert('Please write some code first!'); return; }
+
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
+
+        fetch('/submit/' + problemId, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: code, language: language })
+        })
+        .then(r => r.text())
+        .then(result => {
+            spinner.style.display = 'none';
+            btn.disabled = false;
+            btn.textContent = '🚀 Submit';
+            showResult(result);
+        })
+        .catch(() => {
+            spinner.style.display = 'none';
+            btn.disabled = false;
+            btn.textContent = '🚀 Submit';
+            showResult('RUNTIME_ERROR');
+        });
+    }
+
+    function showResult(result) {
+        const toast = document.getElementById('resultToast');
+        const icon  = document.getElementById('resultIcon');
+        const text  = document.getElementById('resultText');
+        const sub   = document.getElementById('resultSub');
+
+        toast.className = 'result-toast';
+
+        const msgs = {
+            'ACCEPTED':            { icon:'✅', label:'Accepted!',             sub:'Great job! All test cases passed.',        cls:'accepted' },
+            'WRONG_ANSWER':        { icon:'❌', label:'Wrong Answer',          sub:'Your output did not match expected.',      cls:'rejected' },
+            'TIME_LIMIT_EXCEEDED': { icon:'⏰', label:'Time Limit Exceeded',  sub:'Your code ran too slow. Optimize it.',     cls:'tle'      },
+            'RUNTIME_ERROR':       { icon:'💥', label:'Runtime Error',         sub:'Your code threw an exception.',            cls:'rejected' },
+        };
+
+        const m = msgs[result] || { icon:'❓', label: result, sub:'', cls:'' };
+        icon.textContent = m.icon;
+        text.textContent = m.label;
+        sub.textContent  = m.sub;
+        toast.classList.add(m.cls);
+        toast.style.display = 'block';
+
+        setTimeout(() => { toast.style.display = 'none'; }, 5000);
+    }
+
+    function toggleFullscreen() {
+        const editor = document.querySelector('.editor-pane');
+        if (!document.fullscreenElement) {
+            editor.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // Tab key in textarea
+    document.getElementById('codeEditor').addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+            this.selectionStart = this.selectionEnd = start + 4;
+        }
+    });
+</script>
+</body>
+</html>

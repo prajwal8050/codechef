@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="CodeChef - Practice coding problems, compete in contests, and improve your programming skills."/>
+    <title>CodeChef - Programming Contests, Online Judge, and Practice Problems</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f97316'/%3E%3Ctext x='6' y='24' font-size='22' font-weight='900' fill='white' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E"/>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div>
+            CodeChef
+        </a>
+        <ul class="navbar-nav">
+            <li><a th:href="@{/}" class="active">Practice</a></li>
+            <li><a th:href="@{/compete}">Compete</a></li>
+            <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a th:href="@{/discuss}">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+    <div class="navbar-right">
+        <div class="nav-search-box">
+             <input type="text" id="problemSearch" oninput="filterProblems(this.value)" placeholder="Search problems..."/>
+        </div>
+        <div th:if="${session.user == null}" style="display:flex; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+            <a th:href="@{/signup}" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div th:if="${session.user != null}" style="display:flex; align-items:center; gap:12px;">
+            <div class="user-avatar" th:title="${session.user.username}" th:text="${#strings.substring(session.user.username,0,1).toUpperCase()}">U</div>
+            <a th:href="@{/logout}" class="btn btn-outline btn-sm" style="border:none; color:var(--cc-text-muted);">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" style="padding: 100px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 60px; text-align: left; padding: 0 40px; position:relative; z-index:2;">
+        <div style="flex: 1.2;">
+            <h1 style="font-size: 58px; margin-bottom: 24px; line-height: 1.1;">Master Competitive <span>Programming</span></h1>
+            <p style="font-size: 20px; max-width: 600px; margin: 0 0 40px 0; color: var(--cc-text-muted);">CodeChef is the world's leading competitive programming platform. Enhance your coding skills, practice daily problems, and get drafted by the world's biggest tech companies.</p>
+            <div class="hero-actions" style="justify-content: flex-start; margin-bottom:0;">
+                <a href="#practice" class="btn btn-primary btn-lg">Start Practicing</a>
+                <a th:href="@{/courses}" class="btn btn-outline btn-lg">Explore Courses</a>
+            </div>
+        </div>
+        <div style="flex: 1; display:flex; justify-content:center;">
+            <img th:src="@{/images/hero.png}" alt="Developer coding illustration" style="width: 100%; max-width: 520px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.06)); transform: scale(1.05);" />
+        </div>
+    </div>
+</section>
+
+<!-- ========== COMPANY LOGOS ========== -->
+<div class="company-logos">
+    <p>Our students work at top tech companies</p>
+    <div class="logos-grid">
+        <span><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> <strong style="color:#5f6368">Google</strong></span>
+        <span><strong style="color:#000">Amazon</strong><span style="color:#ff9900; font-weight:900;">➔</span></span>
+        <span style="color: #737373;"><svg width="20" height="20" viewBox="0 0 24 24" style="margin-right: -2px;"><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg> Microsoft</span>
+        <span style="color: #0668E1;">Meta</span>
+        <span style="color: #555555;">Apple</span>
+        <span style="color: #000000; letter-spacing: -2px; font-weight: 900; font-size: 26px;">Uber</span>
+    </div>
+</div>
+
+<!-- ========== FEATURED COURSES ========== -->
+<div class="featured-courses">
+    <div class="featured-courses-header">
+        <h2>Accelerate your career with guided paths</h2>
+        <p style="color:var(--cc-text-muted);">Curated by grandmasters, designed to help you ace your interviews.</p>
+    </div>
+    <div class="courses-grid-home">
+        <div class="course-card">
+            <img th:src="@{/images/dsa_course.png}" alt="DSA Course" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:16px; border:1px solid var(--cc-border);" />
+            <h3 class="course-title">Data Structures &amp; Algorithms</h3>
+            <p class="course-desc">A comprehensive path covering everything from Arrays and Linked Lists to Dynamic Programming and Graphs.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--cc-border); padding-top:16px;">
+                <span style="font-size:12px; font-weight:600; color:var(--cc-text-muted);">15 Modules</span>
+                <a class="btn btn-outline btn-sm" th:href="@{/course-details}">Start Learning</a>
+            </div>
+        </div>
+        <div class="course-card">
+            <img th:src="@{/images/python_course.png}" alt="Python Course" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:16px; border:1px solid var(--cc-border);" />
+            <h3 class="course-title">Python for CP</h3>
+            <p class="course-desc">Master Python specifically tailored for competitive programming. Learn fast I/O, built-in collections, and more.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--cc-border); padding-top:16px;">
+                <span style="font-size:12px; font-weight:600; color:var(--cc-text-muted);">8 Modules</span>
+                <a class="btn btn-outline btn-sm" th:href="@{/course-details}">Start Learning</a>
+            </div>
+        </div>
+        <div class="course-card">
+            <img th:src="@{/images/cpp_course.png}" alt="C++ Course" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:16px; border:1px solid var(--cc-border);" />
+            <h3 class="course-title">C++ STL Essentials</h3>
+            <p class="course-desc">Dive deep into the Standard Template Library. Learn vectors, maps, sets, and essential algorithms used by top coders.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--cc-border); padding-top:16px;">
+                <span style="font-size:12px; font-weight:600; color:var(--cc-text-muted);">12 Modules</span>
+                <a class="btn btn-outline btn-sm" th:href="@{/course-details}">Start Learning</a>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center; margin-top:30px;">
+        <a th:href="@{/courses}" class="btn btn-primary">View All Courses →</a>
+    </div>
+</div>
+
+<!-- ========== STATS BAR ========== -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <span class="stat-value">8L+</span>
+        <span class="stat-label">Active Users</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-value" th:text="${problems != null ? problems.size() + '+' : '1000+'}">1000+</span>
+        <span class="stat-label">Problems</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-value" th:text="${contests != null ? contests.size() + '' : '50+'}">50+</span>
+        <span class="stat-label">Contests</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-value">100+</span>
+        <span class="stat-label">Languages</span>
+    </div>
+</div>
+
+<!-- ========== MAIN CONTENT ========== -->
+<div class="page-container">
+    <div class="two-col">
+
+        <!-- LEFT: PROBLEMS -->
+        <div>
+            <div id="practice" class="section-header">
+                <div>
+                    <h2 class="section-title">Practice Problems</h2>
+                    <p style="font-size: 13px; color: var(--cc-text-muted); margin-top: 4px;">Solve problems to enhance your coding skills. Or practice freely in our <a th:href="@{/ide}" style="color: var(--cc-orange); font-weight: 600;">Online IDE</a>.</p>
+                </div>
+                <a th:href="@{/}" class="btn btn-outline btn-sm">View All →</a>
+            </div>
+
+            <!-- Difficulty filter tabs -->
+            <div class="difficulty-tabs">
+                <button class="diff-tab active" id="tab-all"    onclick="filterDiff('ALL')">All</button>
+                <button class="diff-tab easy"   id="tab-easy"   onclick="filterDiff('EASY')">Easy</button>
+                <button class="diff-tab medium" id="tab-medium" onclick="filterDiff('MEDIUM')">Medium</button>
+                <button class="diff-tab hard"   id="tab-hard"   onclick="filterDiff('HARD')">Hard</button>
+            </div>
+
+            <!-- Problem Table -->
+            <div class="problem-table">
+                <table id="problemTable">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Problem</th>
+                        <th>Difficulty</th>
+                        <th>Success Rate</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="problemTableBody">
+                    <!-- Thymeleaf loop -->
+                    <tr th:each="p, iter : ${problems}"
+                        th:data-diff="${p.difficulty}"
+                        th:class="'problem-row'">
+                        <td style="color:var(--cc-text-muted); font-size:13px;" th:text="${iter.index + 1}">1</td>
+                        <td>
+                            <a class="problem-title-link" th:href="@{/problem/{id}(id=${p.id})}" th:text="${p.title}">Problem Title</a>
+                            <div class="problem-code" th:text="'#CC-' + ${p.id}">CC-001</div>
+                        </td>
+                        <td>
+                            <span th:class="'badge badge-' + ${#strings.toLowerCase(p.difficulty)}"
+                                  th:text="${p.difficulty}">EASY</span>
+                        </td>
+                        <td>
+                            <div class="solve-rate">
+                                <div class="solve-bar">
+                                    <div class="solve-bar-fill" th:style="'width:' + ${60 + iter.index * 7 % 40} + '%'"></div>
+                                </div>
+                                <span class="solve-pct" th:text="${60 + iter.index * 7 % 40} + '%'">73%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <a th:href="@{/problem/{id}(id=${p.id})}" class="btn btn-primary btn-sm">Solve</a>
+                        </td>
+                    </tr>
+
+                    <!-- Fallback rows when no data yet -->
+                    <tr th:if="${problems == null or problems.isEmpty()}">
+                        <td colspan="5" style="text-align:center; padding:40px; color:var(--cc-text-muted);">
+                            <div style="font-size:36px; margin-bottom:10px;">🎯</div>
+                            <div style="font-weight:600; margin-bottom:4px;">No problems yet</div>
+                            <div style="font-size:13px;">Problems will appear here once added.</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div>
+
+            <!-- Contests Widget -->
+            <div id="contests" style="margin-bottom:28px;">
+                <div class="section-header">
+                    <h2 class="section-title">Contests</h2>
+                    <a th:href="@{/compete}" class="btn btn-outline btn-sm">All →</a>
+                </div>
+
+                <div th:each="c : ${contests}">
+                    <div class="contest-card">
+                        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px;">
+                            <h3 th:text="${c.name}">Contest Name</h3>
+                            <span th:class="'badge badge-' + ${#strings.toLowerCase(c.status)}"
+                                  th:text="${c.status}">UPCOMING</span>
+                        </div>
+                        <div class="contest-meta">
+                            <div class="contest-meta-item">
+                                <span class="icon">🕐</span>
+                                <span th:if="${c.startTime != null}"
+                                      th:text="${#temporals.format(c.startTime, 'MMM dd, HH:mm')}">Mar 24, 20:00</span>
+                                <span th:unless="${c.startTime != null}">TBA</span>
+                            </div>
+                            <div class="contest-meta-item">
+                                <span class="icon">⏱</span>
+                                <span th:text="${c.durationMs / 3600000} + 'h ' + ${(c.durationMs % 3600000) / 60000} + 'min'">3h 0min</span>
+                            </div>
+                            <div class="contest-meta-item" th:if="${c.problems != null}">
+                                <span class="icon">📝</span>
+                                <span th:text="${c.problems.size()} + ' problems'">1 problems</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <button class="btn btn-primary btn-sm">Register</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No contests placeholder -->
+                <div th:if="${contests == null or contests.isEmpty()}"
+                     style="text-align:center; padding:30px 20px; background:white; border:1px solid var(--cc-border); border-radius:var(--radius);">
+                    <div style="font-size:28px; margin-bottom:8px;">🏆</div>
+                    <div style="font-weight:600; font-size:13px; color:var(--cc-text-muted);">No upcoming contests</div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Widget -->
+            <div>
+                <div class="section-header" style="margin-bottom:12px;">
+                    <h2 class="section-title">Top Coders</h2>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="padding:16px 20px;">
+                        <div class="leaderboard-row">
+                            <div class="rank-medal rank-1">🥇</div>
+                            <div class="lb-user"><div class="lb-username">tourist</div><div class="lb-rating">★ 7000+</div></div>
+                            <div class="lb-score">99.8%</div>
+                        </div>
+                        <div class="leaderboard-row">
+                            <div class="rank-medal rank-2">🥈</div>
+                            <div class="lb-user"><div class="lb-username">Petr</div><div class="lb-rating">★ 6800</div></div>
+                            <div class="lb-score">97.4%</div>
+                        </div>
+                        <div class="leaderboard-row">
+                            <div class="rank-medal rank-3">🥉</div>
+                            <div class="lb-user"><div class="lb-username">Um_nik</div><div class="lb-rating">★ 6600</div></div>
+                            <div class="lb-score">96.1%</div>
+                        </div>
+                        <div class="leaderboard-row">
+                            <div class="rank-medal rank-other">4</div>
+                            <div class="lb-user"><div class="lb-username">maroonrk</div><div class="lb-rating">★ 6400</div></div>
+                            <div class="lb-score">95.3%</div>
+                        </div>
+                        <div class="leaderboard-row">
+                            <div class="rank-medal rank-other">5</div>
+                            <div class="lb-user"><div class="lb-username">neal_wu</div><div class="lb-rating">★ 6200</div></div>
+                            <div class="lb-score">94.7%</div>
+                        </div>
+                        <div style="text-align:center; padding-top:12px;">
+                            <a href="javascript:void(0)" onclick="alert('Full rankings will be available after the next contest!')" style="font-size:13px; color:var(--cc-orange); font-weight:600;">View Full Rankings →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">CodeChef</div>
+            <p>A global competitive programming platform helping developers upskill and connect with top companies.</p>
+        </div>
+        <div>
+            <h5>Practice</h5>
+            <ul>
+                <li><a href="javascript:void(0)">Problems</a></li>
+                <li><a href="javascript:void(0)">Contests</a></li>
+                <li><a href="javascript:void(0)">Practice IDE</a></li>
+                <li><a href="javascript:void(0)">Submissions</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5>Learn</h5>
+            <ul>
+                <li><a href="javascript:void(0)">DSA Learning Path</a></li>
+                <li><a href="javascript:void(0)">Courses</a></li>
+                <li><a href="javascript:void(0)">Discuss</a></li>
+                <li><a href="javascript:void(0)">Blog</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5>Company</h5>
+            <ul>
+                <li><a href="javascript:void(0)">About Us</a></li>
+                <li><a href="javascript:void(0)">Careers</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Terms</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2024 CodeChef Clone. Built with Spring Boot &amp; Thymeleaf.</span>
+        <span>Made with ❤️</span>
+    </div>
+</footer>
+
+<script>
+    // ---- Difficulty filter ----
+    function filterDiff(diff) {
+        document.querySelectorAll('.diff-tab').forEach(t => t.classList.remove('active'));
+        const target = diff === 'ALL' ? 'tab-all' : 'tab-' + diff.toLowerCase();
+        document.getElementById(target)?.classList.add('active');
+
+        document.querySelectorAll('.problem-row').forEach(row => {
+            const d = row.dataset.diff;
+            row.style.display = (diff === 'ALL' || d === diff) ? '' : 'none';
+        });
+    }
+
+    // ---- Text search filter ----
+    function filterProblems(q) {
+        q = q.toLowerCase();
+        document.querySelectorAll('.problem-row').forEach(row => {
+            const title = row.querySelector('.problem-title-link')?.textContent.toLowerCase() || '';
+            row.style.display = title.includes(q) ? '' : 'none';
+        });
+    }
+</script>
+</body>
+</html>
