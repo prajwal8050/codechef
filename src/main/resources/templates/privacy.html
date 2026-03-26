@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Privacy Policy | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:white;">
+
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 800px; margin-top: 100px;">
+    <h1 style="font-size: 32px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Privacy Policy</h1>
+    <p style="font-size: 16px; color: #64748b; line-height: 1.6; margin-bottom: 30px;">This Privacy Policy explains how CodeChef collects, uses, and shares information through our services. We value your privacy and are committed to protecting it through our compliance with this policy.</p>
+    
+    <div style="margin-bottom: 40px;">
+        <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 10px;">Information We Collect</h3>
+        <p style="font-size: 14px; color: #475569; line-height: 1.7;">We collect information that you provide to us directly when you create an account, such as your name, email address, and username. We also collect usage data automatically when you interact with our platform.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}" style="margin-top: 100px;"></div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Add Contest | CodeChef Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f1f5f9;">
+
+<div class="page-container" style="max-width: 600px; margin-top: 100px;">
+    <div class="card" style="padding:50px; background:white; border:none; border-radius:30px;">
+        <h1 style="font-size:24px; font-weight:800; margin-bottom:30px;">Initialize New Contest</h1>
+        <form th:action="@{/admin/contests/save}" method="post">
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Contest Name</label>
+                <input type="text" name="name" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; outline:none; box-sizing:border-box;" required/>
+            </div>
+            
+            <div style="margin-bottom:30px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Estimated Duration (Hours)</label>
+                <input type="number" name="durationMs" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; outline:none; box-sizing:border-box;" value="3" required/>
+                <p style="font-size:11px; color:#94a3b8; margin-top:8px;">Standard CodeChef contests are usually 3 hours long.</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:15px; font-size:16px;">Schedule Contest</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

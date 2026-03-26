@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CodeChef Blog | Tech & Competitions</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f8fbff;">
+
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 900px; margin-top: 60px;">
+    <h1 style="font-size: 36px; font-weight: 800; color: #0f172a; margin-bottom: 40px;">Editorials & Tech Blog</h1>
+
+    <div class="card" style="padding:40px; background:white; border:none; border-radius:24px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,0,0,0.02);">
+        <span style="color:#f97316; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:1px;">Editorial</span>
+        <h2 style="font-size:24px; font-weight:800; margin:15px 0;">Starters 125 (Division 2) Detailed Editorials</h2>
+        <p style="color:#64748b; margin-bottom:25px;">Dive deep into the logic for the toughest problems of our recent contest...</p>
+        <a href="#" style="color:#6366f1; font-weight:700; text-decoration:none;">Read More →</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

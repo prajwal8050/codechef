@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Course Syllabus | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+        <ul class="navbar-nav">
+            <li><a th:href="@{/}">Practice</a></li>
+            <li><a th:href="@{/compete}">Compete</a></li>
+            <li><a th:href="@{/courses}" class="active">Courses</a></li>
+            <li><a th:href="@{/discuss}">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+    <div class="navbar-right">
+        <a th:href="@{/ide}" class="btn btn-outline btn-sm">Try IDE</a>
+    </div>
+</nav>
+
+    <div class="page-container" style="max-width: 800px; margin-top: 40px;">
+    <a th:href="@{/courses}" style="color:var(--cc-orange); font-weight:600; font-size:13px;">← Back to Courses</a>
+    <h1 style="margin-top: 15px; font-size: 32px; color: var(--cc-text); font-weight: 800;" th:text="${course.title}">Course Title</h1>
+    <p style="color: var(--cc-text-muted); margin-bottom: 30px;" th:text="${course.description}">Description</p>
+
+    <div th:each="m : ${course.modules}" class="card" 
+         th:style="${m.locked} ? 'padding:24px; margin-bottom:20px; opacity:0.6;' : 'padding:24px; margin-bottom:20px; box-shadow:var(--cc-card-shadow);'">
+        <h3 style="color:var(--cc-text); margin-bottom:6px;">
+            [[${m.title}]] <span th:if="${m.locked}">🔒</span>
+        </h3>
+        <p style="font-size: 14px; color: var(--cc-text-muted); margin-bottom: 16px;" th:text="${m.description}">Description</p>
+        <a th:if="${!m.locked}" th:href="@{'/module-view/' + ${m.id}}" class="btn btn-success btn-sm">Resume Learning</a>
+    </div>
+</div>
+
+</body>
+</html>

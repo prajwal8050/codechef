@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Careers | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:white;">
+
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 800px; margin-top: 100px; text-align: center;">
+    <h1 style="font-size: 38px; font-weight: 900; color: #0f172a; margin-bottom: 25px;">Join the Team</h1>
+    <p style="font-size: 18px; color: #64748b; line-height: 1.6; margin-bottom: 60px;">We're always looking for talented individuals who are passionate about education and programming.</p>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}" style="margin-top: 100px;"></div>
+
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="CodeChef - Practice coding problems, compete in contests, and improve your programming skills."/>
+    <title>CodeChef - Programming Contests, Online Judge, and Practice Problems</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" style="border-bottom: 1px solid #f1f5f9; background: white;">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <svg width="24" height="24" viewBox="0 0 32 32" style="margin-right:10px;">
+                <rect width="32" height="32" rx="6" fill="#f97316"/>
+                <text x="6" y="24" font-size="22" font-weight="900" fill="white" font-family="Arial">C</text>
+            </svg> CodeChef
+        </a>
+        <ul class="navbar-nav">
+            <li><a th:href="@{/practice}">Practice</a></li>
+            <li><a th:href="@{/compete}">Compete</a></li>
+            <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a th:href="@{/discuss}">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+    <div class="navbar-right">
+        <div class="nav-search-wrapper">
+             <i class="search-icon">🔍</i>
+             <input type="text" placeholder="Search problems..."/>
+        </div>
+        <div th:if="${session.user == null}" style="display:flex; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+        </div>
+        <div th:if="${session.user != null}" style="display:flex; align-items:center; gap:15px;">
+            <div class="user-avatar" style="background:#f97316; color:white; width:34px; height:34px; font-weight:900;" th:text="${#strings.substring(session.user.username,0,1).toUpperCase()}">A</div>
+            <a th:href="@{/logout}" style="color:#64748b; font-weight:700; font-size:13px; text-decoration:none;">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== HERO SECTION ========== -->
+    <div class="hero" style="background: #ffffff; padding: 120px 24px 80px; text-align: center;">
+        <div class="hero-content" style="max-width: 900px; margin: 0 auto;">
+            <h1 style="font-size: 58px; font-weight: 900; color: #0f172a; margin-bottom: 25px; line-height: 1.1; letter-spacing: -2px;">
+                Build your programming skills to<span style="color: #f97316; position: relative;"> Next Level
+                    <div style="position: absolute; bottom: 8px; left: 0; width: 100%; height: 12px; background: rgba(249, 115, 22, 0.15); z-index: -1;"></div>
+                </span>
+            </h1>
+            <p style="font-size: 20px; color: #64748b; margin-bottom: 50px; line-height: 1.6;">
+                CodeChef is a platform to help programmers make it big in the world of algorithms, computer programming, and programming contests.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a th:href="@{/signup}" class="btn btn-primary" style="padding: 18px 45px; font-size: 18px; border-radius: 50px; box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);">Start Learning For Free</a>
+                <a th:href="@{/practice}" class="btn btn-outline" style="padding: 18px 45px; font-size: 18px; border-radius: 50px; background: white; border-color: #e2e8f0;">Practice Problems</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== HIRING PARTNERS SECTION ========== -->
+    <div style="background: white; padding: 60px 24px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+        <h4 style="font-size: 18px; font-weight: 800; color: #1e293b; margin-bottom: 8px;">Delivering job ready developers</h4>
+        <p style="font-size: 14px; color: #64748b; margin-bottom: 40px; font-weight: 500;">Companies where our course graduates are working</p>
+        
+        <div style="display: flex; justify-content: center; gap: 50px; align-items: center; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; opacity: 0.8;">
+            <div style="font-size: 24px; font-weight: 900; color: #4285F4; font-family: 'Product Sans', Arial;">Google</div>
+            <div style="font-size: 24px; font-weight: 900; color: #3253D9;">Qualcomm</div>
+            <div style="font-size: 24px; font-weight: 900; color: #0668E1; display:flex; align-items:center; gap:5px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16.45 6c-1.4 0-2.45.6-3.15 1.55-.7-.95-1.75-1.55-3.15-1.55-2.45 0-4.45 2.1-4.45 4.7 0 2.6 2 4.7 4.45 4.7 1.45 0 2.5-.6 3.15-1.55.7.95 1.75 1.55 3.15 1.55 2.45 0 4.45-2.1 4.45-4.7s-2-4.7-4.45-4.7z"/></svg> 
+                Meta
+            </div>
+            <div style="font-size: 28px; filter: grayscale(1);">🍎</div>
+            <div style="font-size: 22px; font-weight: 900; color: #E50914; letter-spacing: -1px;">NETFLIX</div>
+            <div style="font-size: 20px; font-weight: 800; color: #0A66C2;">Linked <span style="background:#0A66C2; color:white; padding: 2px 5px; border-radius:3px; margin-left:2px;">in</span></div>
+            <div style="font-size: 24px; font-weight: 900; color: #232F3E;">amazon</div>
+            <div style="font-size: 24px; font-weight: 900; color: #737373; display:flex; align-items:center; gap:8px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2px; width:18px;">
+                    <div style="background:#F25022; height:8px;"></div><div style="background:#7FBA00; height:8px;"></div>
+                    <div style="background:#00A1F1; height:8px;"></div><div style="background:#FFB900; height:8px;"></div>
+                </div>
+                Microsoft
+            </div>
+        </div>
+    </div>
+
+<!-- ========== STATS BAR ========== -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-num">2.5M+</div>
+        <div class="stat-label">Active Users</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">100M+</div>
+        <div class="stat-label">Submissions</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">180+</div>
+        <div class="stat-label">Countries</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">5000+</div>
+        <div class="stat-label">Institutes</div>
+    </div>
+</div>
+
+<!-- ========== WHY CODECHEF SECTION ========== -->
+<section class="info-section">
+    <h2 style="font-size: 36px; font-weight: 900; color: var(--cc-text);">Why CodeChef?</h2>
+    <p style="color: var(--cc-text-muted); font-size: 18px; max-width: 700px; margin: 10px auto 0;">The best way to master programming is through competition and practice.</p>
+    
+    <div class="info-grid">
+        <div class="info-item">
+            <span class="info-icon">💻</span>
+            <h3>Practice Daily</h3>
+            <p>Solve curated problems across topics like Arrays, Strings, DP, and Graphs. Each problem comes with detailed editorials.</p>
+        </div>
+        <div class="info-item">
+            <span class="info-icon">🏆</span>
+            <h3>Monthly Contests</h3>
+            <p>Participate in rated contests like Long Challenge, Cook-Off, and Lunchtime to compete with global talent.</p>
+        </div>
+        <div class="info-item">
+            <span class="info-icon">📜</span>
+            <h3>Industry Certifications</h3>
+            <p>Get recognized for your skills with certificates trusted by industry leaders and top tech companies.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FEATURES WITH HAND GESTURE SECTION ========== -->
+<section class="features-with-hand">
+    <div class="fwh-container">
+        <div class="fwh-left">
+            <img th:src="@{/images/hand_gesture_illustration.png}" alt="Hand Gesture Illustration"/>
+        </div>
+        <div class="fwh-right">
+            <div class="f-float-card">
+                <div class="f-icon-dot"></div>
+                <h4>Curated Roadmaps</h4>
+                <p>Structured learning paths for every skill level, from basics to advanced algorithms.</p>
+            </div>
+            <div class="f-float-card offset">
+                <div class="f-icon-dot" style="background:#6366f1;"></div>
+                <h4>Industry Problems</h4>
+                <p>Problems designed by engineers from top companies like Google and Meta.</p>
+            </div>
+            <div class="f-float-card">
+                <div class="f-icon-dot" style="background:#10b981;"></div>
+                <h4>Global Rank</h4>
+                <p>See where you stand globally with our ELO-based rating system.</p>
+            </div>
+            <div class="f-float-card offset">
+                <div class="f-icon-dot" style="background:#a855f7;"></div>
+                <h4>Peer Support</h4>
+                <p>Access our community forum with 2M+ active and helpful developers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== AI ASSISTANT SECTION ========== -->
+<section class="ai-assistant-section">
+    <div class="ai-container">
+        <div class="ai-illu">
+            <img th:src="@{/images/ai_tutor_illustration.png}" alt="AI Tutor Illustration"/>
+        </div>
+        <div class="ai-text">
+            <h4>AI Assistant</h4>
+            <h2>Your personal AI Tutor: Solve Problems Together...</h2>
+            <p>Get step-by-step explanations, debugging help, and personalized learning guidance from our 7-star trained assistant.</p>
+            <ul class="ai-list">
+                <li>Ask anything at any time</li>
+                <li>Get hints instead of full solutions</li>
+                <li>Debug and optimize your code in real-time</li>
+            </ul>
+            <button class="btn btn-primary btn-lg" onclick="openChat()" style="background: #f97316; border-color: #f97316; padding: 18px 45px;">Quick Demo</button>
+        </div>
+    </div>
+</section>
+
+<!-- ========== PRACTICE TO SOLVE SECTION ========== -->
+<section class="practice-world">
+    <div class="pw-container">
+        <div class="pw-card">
+            <div class="pw-card-header">
+                <div class="icon-p">P</div>
+            </div>
+            <div class="pw-card-body">
+                <h3>Problem of the Day</h3>
+                <p>A new challenge everyday to keep your streak alive and sharpen your skills.</p>
+                <div style="background:#f1f5f9; height:8px; border-radius:4px; margin:20px 0; overflow:hidden;">
+                     <div style="background:var(--cc-orange); width:65%; height:100%;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
+                    <span>65% Solved</span>
+                    <span>12.5k Users Attempted</span>
+                </div>
+            </div>
+        </div>
+        <div class="pw-text">
+            <h4>Practice to Perfection</h4>
+            <h2>Build a consistency that companies admire</h2>
+            <ul style="margin-top:30px;">
+                <li>Solve 5000+ problems across various difficulty levels.</li>
+                <li>Follow dedicated practice paths like "30 Days of Code".</li>
+                <li>Earn badges and points for every problem you solve.</li>
+                <li>Participate in community polls on problem difficulty.</li>
+            </ul>
+            <a th:href="@{/practice}" class="btn btn-outline" style="margin-top:20px;">Browse Problem Library</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== COMMUNITY STATS SECTION ========== -->
+<section class="community-section">
+    <div class="page-container">
+        <h2 style="font-size:36px; font-weight:900; margin-bottom:15px;">A Community built on Excellence</h2>
+        <p style="opacity:0.8; font-size:18px;">Join millions of developers from across the globe.</p>
+        <div class="com-stats">
+            <div class="com-stat-card">
+                <h4>25K+</h4>
+                <p>Colleges</p>
+            </div>
+            <div class="com-stat-card">
+                <h4>200+</h4>
+                <p>Live Contests Yearly</p>
+            </div>
+            <div class="com-stat-card">
+                <h4>50M+</h4>
+                <p>Code Runs Monthly</p>
+            </div>
+            <div class="com-stat-card">
+                <h4>1M+</h4>
+                <p>Forum Posts</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== THE JOURNEY SECTION ========== -->
+<section class="journey-section">
+    <div class="page-container">
+        <div style="text-align:center; margin-bottom:60px;">
+            <h2 style="font-size:36px; font-weight:900;">From Beginner to Pro</h2>
+            <p style="color:var(--cc-text-muted); margin-top:10px;">Your clear roadmap to a top tech career.</p>
+        </div>
+        <div class="journey-container">
+             <div class="journey-step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Learn the Basics</h3>
+                    <p>Start with your favorite language—Python, C++, or Java. Master variables, loops, and conditions with interactive lessons.</p>
+                </div>
+             </div>
+             <div class="journey-step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Master DSA</h3>
+                    <p>Deep dive into Arrays, Linked Lists, Trees, and DP. Understand time and space complexity like a pro.</p>
+                </div>
+             </div>
+             <div class="journey-step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Compete Globally</h3>
+                    <p>Take part in our weekend contests. Improve your rank, gain confidence, and see your rating rise.</p>
+                </div>
+             </div>
+             <div class="journey-step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Land the Dream Job</h3>
+                    <p>Get hired by top companies through our recruitment challenges and skill profile recognition.</p>
+                </div>
+             </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== COMPETITIVE HUB SECTION ========== -->
+<section class="comp-hub">
+    <div class="page-container">
+        <div style="text-align:center; margin-bottom:60px;">
+            <h2 style="font-size:36px; font-weight:900;">The Ultimate Arena</h2>
+            <p style="color:#94a3b8; margin-top:10px;">More ways to challenge yourself every single day.</p>
+        </div>
+        <div class="hub-grid">
+            <a th:href="@{/competitive/1v1}" class="hub-card">
+                <span class="hub-icon">⚔️</span>
+                <h3>1v1 Battles</h3>
+                <p>Challenge a friend or a random opponent to a timed coding duel.</p>
+                <span class="hub-tag">New</span>
+            </a>
+            <a th:href="@{/competitive/speed}" class="hub-card">
+                <span class="hub-icon">⚡</span>
+                <h3>Speed Coding</h3>
+                <p>Solve 5 easy problems as fast as possible. Real-time leaderboard.</p>
+                <span class="hub-tag">Beta</span>
+            </a>
+            <a th:href="@{/competitive/reverse}" class="hub-card">
+                <span class="hub-icon">🔄</span>
+                <h3>Reverse Coding</h3>
+                <p>Find the logic from sample inputs and outputs without knowing the problem.</p>
+                <span class="hub-tag">Fun</span>
+            </a>
+            <a th:href="@{/competitive/blind}" class="hub-card">
+                <span class="hub-icon">🙈</span>
+                <h3>Blind Coding</h3>
+                <p>Write your code without being able to run it or see errors until the end.</p>
+                <span class="hub-tag">Expert</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== PRICING SECTION ========== -->
+<div style="background: #0b1120; padding: 120px 0; position: relative; overflow: hidden;">
+    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.02) 1px, transparent 0); background-size: 40px 40px;"></div>
+    <div class="page-container" style="position: relative; z-index: 1; text-align: center;">
+        <div style="margin-bottom: 80px;">
+            <span style="color: #6366f1; font-weight: 800; font-size: 14px; letter-spacing: 2px; text-transform: uppercase;">Plans made for you</span>
+            <h2 style="color: white; font-size: 48px; font-weight: 900; margin-top: 15px;">Unlock Premium Learning with CodeChef Pro</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto;">
+            <!-- FREE PLAN -->
+            <div style="background: white; border-radius: 30px; padding: 50px; text-align: left; display: flex; flex-direction: column;">
+                <div style="margin-bottom: 30px;">
+                    <span style="font-size: 40px; color: #10b981;">✦</span>
+                    <h3 style="font-size: 24px; font-weight: 900; margin-top: 10px;">Free Plan</h3>
+                </div>
+                <a th:href="@{/signup}" class="btn btn-outline" style="width: 100%; padding: 15px; margin-bottom: 40px; text-decoration: none; text-align: center;">Start now</a>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px; font-size: 14px; font-weight: 600; color: #475569;">
+                    <li><span style="color: #10b981;">✔</span> Free practice paths</li>
+                    <li><span style="color: #10b981;">✔</span> Weekly contest access</li>
+                    <li><span style="color: #10b981;">✔</span> Community support</li>
+                </ul>
+            </div>
+
+            <!-- PRO PLAN -->
+            <div style="background: white; border-radius: 30px; padding: 50px; text-align: left; position: relative; border: 4px solid #f97316; box-shadow: 0 30px 60px rgba(249, 115, 22, 0.15); transform: translateY(-20px);">
+                <div style="position: absolute; top: -15px; right: 30px; background: #f97316; color: white; font-size: 10px; font-weight: 900; padding: 5px 12px; border-radius: 20px;">BEST VALUE</div>
+                <div style="margin-bottom: 30px;">
+                    <span style="font-size: 40px; color: #f97316;">🎖️</span>
+                    <h3 style="font-size: 24px; font-weight: 900; margin-top: 10px;">Pro Plan</h3>
+                    <div style="margin-top: 15px;">
+                        <span style="font-size: 32px; font-weight: 900; color: #0f172a;">₹4999</span>
+                        <span style="color: #94a3b8; font-weight: 600;">/year</span>
+                    </div>
+                </div>
+                <a th:href="@{/signup}" class="btn btn-primary" style="width: 100%; padding: 15px; margin-bottom: 40px; background: #6366f1; border-color: #6366f1; text-decoration: none; text-align: center;">Start today</a>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px; font-size: 14px; font-weight: 600; color: #475569;">
+                    <li><span style="color: #10b981;">✔</span> AI Tutor Assistant</li>
+                    <li><span style="color: #10b981;">✔</span> 40+ Premium Courses</li>
+                    <li><span style="color: #10b981;">✔</span> Build real-world projects</li>
+                    <li><span style="color: #10b981;">✔</span> Ad-free experience</li>
+                </ul>
+            </div>
+
+            <!-- ENTERPRISE PLAN -->
+            <div style="background: white; border-radius: 30px; padding: 50px; text-align: left; display: flex; flex-direction: column;">
+                <div style="margin-bottom: 30px;">
+                    <span style="font-size: 40px; color: #6366f1;">❖</span>
+                    <h3 style="font-size: 24px; font-weight: 900; margin-top: 10px;">Enterprise</h3>
+                </div>
+                <a th:href="@{/about}" class="btn btn-outline" style="width: 100%; padding: 15px; margin-bottom: 40px; text-decoration: none; text-align: center;">Contact us</a>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px; font-size: 14px; font-weight: 600; color: #475569;">
+                    <li><span style="color: #10b981;">✔</span> Everything in Pro</li>
+                    <li><span style="color: #10b981;">✔</span> Faculty dashboard</li>
+                    <li><span style="color: #10b981;">✔</span> Bulk licenses</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== TESTIMONIALS SECTION ========== -->
+<section class="testimonial-section">
+    <div class="page-container">
+        <div style="text-align:center; margin-bottom:60px;">
+            <h2 style="font-size:36px; font-weight:900;">Loved by Coders Globally</h2>
+            <p style="color:var(--cc-text-muted); margin-top:10px;">Join 2.5 million users who are changing their lives with CodeChef.</p>
+        </div>
+        <div class="test-grid">
+            <div class="test-card">
+                <p class="test-text">"CodeChef helped me bridge the gap between knowing a language and solving complex logic problems. I recently landed a job at Google!"</p>
+                <div class="test-user">
+                    <div class="test-avatar" style="background:#ccfbf1; display:flex; align-items:center; justify-content:center; font-weight:900;">RM</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a;">Rahul Mehta</div>
+                        <div style="font-size:12px; color:#64748b;">Software Engineer, Google</div>
+                    </div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p class="test-text">"The Pro plan is worth every penny. The AI tutor explained concepts I struggled with for months in just a few minutes."</p>
+                <div class="test-user">
+                    <div class="test-avatar" style="background:#e0f2fe; display:flex; align-items:center; justify-content:center; font-weight:900;">SP</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a;">Sanya P.</div>
+                        <div style="font-size:12px; color:#64748b;">CS Student, IIT Delhi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p class="test-text">"The community here is unbelievable. Whenever I get stuck on a problem, there's always an editorial or a forum post that helps me out."</p>
+                <div class="test-user">
+                    <div class="test-avatar" style="background:#fef3c7; display:flex; align-items:center; justify-content:center; font-weight:900;">AD</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a;">Arjun Das</div>
+                        <div style="font-size:12px; color:#64748b;">Competitive Programmer</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Additional Testimonials -->
+            <div class="test-card">
+                <p class="test-text">"I started as a absolute beginner. The structured roadmaps and practice paths helped me become a 5-star coder in just a year."</p>
+                <div class="test-user">
+                    <div class="test-avatar" style="background:#fae8ff; display:flex; align-items:center; justify-content:center; font-weight:900;">NK</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a;">Neha Kapoor</div>
+                        <div style="font-size:12px; color:#64748b;">Frontend Developer, Amazon</div>
+                    </div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p class="test-text">"The monthly contests are high adrenaline! It's the best way to test your speed and accuracy under pressure. Highly recommend it."</p>
+                <div class="test-user">
+                    <div class="test-avatar" style="background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:900;">JS</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a;">James Smith</div>
+                        <div style="font-size:12px; color:#64748b;">Backend Lead, Netflix</div>
+                    </div>
+                </div>
+            </div>
+            <div class="test-card">
+                <p class="test-text">"DSA used to be my nightmare until I found CodeChef's curated courses. The visualizations and problem solving techniques are top-notch."</p>
+                <div class="test-user">
+                    <div class="test-avatar" style="background:#ffedd5; display:flex; align-items:center; justify-content:center; font-weight:900;">VK</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a;">Vikram K.</div>
+                        <div style="font-size:12px; color:#64748b;">Full Stack Dev, Zomato</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FINAL CTA SECTION ========== -->
+<div class="page-container">
+    <div class="cta-banner">
+        <h2>Ready to start your journey?</h2>
+        <p>Join millions of developers and start solving problems today.</p>
+        <div style="display:flex; justify-content:center; gap:20px;">
+            <a th:href="@{/signup}" class="btn btn-outline" style="background:white; color:var(--cc-orange); border-color:white; font-size:18px; padding:15px 40px;">Create Free Account</a>
+        </div>
+    </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ========== AI CHAT MODAL ========== -->
+<div id="aiChatModal" class="chat-modal-overlay">
+    <div class="chat-modal">
+        <div class="chat-modal-header">
+            <h3>CodeChef AI Assistant</h3>
+            <button class="chat-close-btn" onclick="closeChat()">&times;</button>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+            <div class="chat-bubble ai">
+                Hello! I'm your CodeChef AI Mentor. How can I help you today? You can ask me about algorithms, code optimizations, or specific problem hints.
+            </div>
+        </div>
+        <div id="typingIndicator" class="typing-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type your doubt here..." onkeypress="handleChatKey(event)"/>
+            <button class="btn btn-primary" onclick="sendMessage()" style="padding:10px 20px;">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openChat() {
+        document.getElementById('aiChatModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeChat() {
+        document.getElementById('aiChatModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function handleChatKey(e) {
+        if (e.key === 'Enter') sendMessage();
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        appendMessage('user', text);
+        input.value = '';
+        
+        // Show typing indicator
+        const indicator = document.getElementById('typingIndicator');
+        indicator.style.display = 'flex';
+        
+        // Automated response logic for demo
+        setTimeout(() => {
+            indicator.style.display = 'none';
+            let response = "That's a great question! For competitive programming, I recommend focusing on time complexity first. Would you like me to explain how to analyze O(N log N) for this problem?";
+            if (text.toLowerCase().includes('sum')) {
+                response = "I see you're working on a summation problem. For large inputs, make sure to use 'long' in Java or 'long long' in C++ to avoid overflow!";
+            }
+            appendMessage('ai', response);
+        }, 1500);
+    }
+
+    function appendMessage(sender, text) {
+        const container = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = `chat-bubble ${sender}`;
+        div.textContent = text;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
+</script>
+
+</body>
+</html>

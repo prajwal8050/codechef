@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Reverse Coding | CodeChef Arena</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+        .icon-box {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            border-radius: 30px;
+            color: #6366f1;
+        }
+        h1 { font-size: 40px; font-weight: 900; margin-bottom: 15px; }
+        p { color: #94a3b8; font-size: 18px; margin-bottom: 40px; }
+        .logic-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: left;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .sample-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .sample-row:last-child { border-bottom: none; }
+        .label { color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+        .value { color: #10b981; font-family: monospace; font-size: 18px; font-weight: 700; }
+        .btn-play {
+            background: #6366f1;
+            color: white;
+            padding: 18px 50px;
+            border-radius: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-play:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <div class="icon-box">🔄</div>
+        <h1>Reverse Coding</h1>
+        <p>Unlock the hidden algorithm by analyzing inputs and outputs.</p>
+        
+        <div class="logic-panel">
+            <div class="sample-row">
+                <span class="label">Sample Input</span>
+                <span class="value">5, 10, 15</span>
+            </div>
+            <div class="sample-row">
+                <span class="label">Sample Output</span>
+                <span class="value">30</span>
+            </div>
+            <div class="sample-row">
+                <span class="label">Challenge #1</span>
+                <span class="value">Active Now</span>
+            </div>
+        </div>
+
+        <a th:href="@{/ide}" class="btn-play">Enter The Matrix</a>
+        <div style="margin-top:20px;">
+            <a th:href="@{/}" style="color:#64748b; font-weight:600; text-decoration:none;">Go Back</a>
+        </div>
+    </div>
+</body>
+</html>

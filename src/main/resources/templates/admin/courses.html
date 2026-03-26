@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Manage Courses | CodeChef Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f1f5f9;">
+
+<nav class="navbar" style="background:#0f172a;">
+    <div style="display:flex; align-items:center;">
+        <a href="/admin" class="navbar-brand">
+            <div class="brand-icon">A</div> Admin Portal
+        </a>
+        <ul class="navbar-nav">
+             <li><a th:href="@{/admin/problems}">Problems</a></li>
+             <li><a th:href="@{/admin/contests}">Contests</a></li>
+             <li><a th:href="@{/admin/courses}" class="active">Courses</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 1000px; margin-top: 50px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px;">
+        <h1 style="font-size: 28px; font-weight: 800;">Manage Courses</h1>
+        <a th:href="@{/admin/courses/add}" class="btn btn-primary">+ Add New Course</a>
+    </div>
+
+    <div th:each="c : ${courses}" class="card" 
+         style="padding:30px; margin-bottom:20px; background:white; border:none; box-shadow:0 10px 30px rgba(0,0,0,0.02); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+             <h3 style="font-size:18px; font-weight:800; margin-bottom:10px;" th:text="${c.title}">title</h3>
+             <p style="color:#64748b; font-size:14px; margin-bottom:15px;" th:text="${c.description}">description</p>
+             <div style="display:flex; gap:10px;">
+                  <span th:text="${#lists.size(c.modules)} + ' Modules'" style="background:#eef2ff; color:#6366f1; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:800;">3 Modules</span>
+             </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+             <a th:href="@{'/admin/modules/add/' + ${c.id}}" class="btn btn-outline btn-sm">Add Module</a>
+             <a href="#" class="btn btn-outline btn-sm" style="color:#f97316;">Edit</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${module.title}">Module | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f8fbff;">
+
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 800px; margin-top: 50px;">
+    <a th:href="@{/course-details}" style="color:var(--cc-orange); font-weight:700; font-size:14px; display:inline-block; margin-bottom:25px;">← Back to Course</a>
+
+    <div class="card" style="padding:50px; border:none; box-shadow:0 20px 60px rgba(0,0,0,0.05); background:white;">
+        <h1 style="font-size:32px; font-weight:900; color:#0f172a; margin-bottom:20px;" th:text="${module.title}">Module Title</h1>
+        
+        <div style="display:flex; gap:10px; margin-bottom:40px;">
+            <span style="background:#eef2ff; color:#6366f1; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:800;">VIDEO LESSON</span>
+            <span style="background:#fefce8; color:#a16207; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:800;">25 MINS</span>
+        </div>
+
+        <div style="background:#0f172a; border-radius:20px; aspect-ratio:16/9; margin-bottom:40px; display:flex; align-items:center; justify-content:center; color:white; font-size:14px; flex-direction:column; gap:15px;">
+            <div style="background:rgba(255,255,255,0.1); width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; cursor:pointer;">▶</div>
+            <span style="opacity:0.6; font-weight:700;">Click to start video tutorial</span>
+        </div>
+
+        <div style="color:#475569; font-size:16px; line-height:1.8;">
+            <h3 style="color:#0f172a; font-weight:800; margin-bottom:15px;">What you'll learn</h3>
+            <p th:text="${module.description}">Description</p>
+            
+            <p style="margin-top:20px;">In this module, we dive deep into the core concepts required for competitive programming. We'll cover time complexity, space complexity, and how to optimize your code for large input sets.</p>
+        </div>
+
+        <form th:action="@{'/module/complete/' + ${module.id}}" method="post" style="margin-top:50px; border-top:1px solid #f1f5f9; padding-top:30px; display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-success" style="padding:15px 40px; font-size:16px;">Complete and Continue →</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

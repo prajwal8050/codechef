@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Online Compiler & IDE - Practice coding in Python, Java, C++, and more."/>
+    <title>Online Compiler and IDE | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f97316'/%3E%3Ctext x='6' y='24' font-size='22' font-weight='900' fill='white' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E"/>
+    <style>
+        body { 
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; 
+            background-color: #1e1e2e;
+        }
+
+        /* Navbar tweaks *for* IDE mode */
+        .navbar { z-index: 100; border-bottom: 1px solid #313244; background-color: #11111b; }
+        .navbar a { color: #cdd6f4; }
+        .navbar .brand-icon { background: #f97316; }
+
+        /* Full IDE Layout */
+        .ide-container {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            overflow: hidden;
+            background-color: #1e1e2e;
+        }
+
+        /* Left Side: Editor */
+        .ide-editor-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #313244;
+        }
+
+        /* Right Side: I/O */
+        .ide-io-section {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            background-color: #181825;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #11111b;
+            border-bottom: 1px solid #313244;
+        }
+
+        .lang-select {
+            background: #313244;
+            color: #cdd6f4;
+            border: 1px solid #45475a;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .code-editor {
+            flex: 1;
+            width: 100%;
+            background: #1e1e2e;
+            color: #cdd6f4;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 15px;
+            border: none;
+            outline: none;
+            resize: none;
+            tab-size: 4;
+        }
+
+        /* IO Panel overriding default styles */
+        .io-panel-header {
+            padding: 10px 15px;
+            background: #11111b;
+            color: #cdd6f4;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #313244;
+            border-top: none;
+        }
+
+        .io-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #313244;
+        }
+
+        .io-textarea {
+            flex: 1;
+            width: 100%;
+            background: transparent;
+            color: #cdd6f4;
+            font-family: inherit;
+            font-size: 13px;
+            padding: 15px;
+            border: none;
+            outline: none;
+            resize: none;
+        }
+
+        .output-textarea {
+            color: #a6e3a1;
+        }
+
+        .output-textarea.error {
+            color: #f38ba8;
+        }
+
+        .editor-footer {
+            padding: 15px;
+            background: #11111b;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-top: 1px solid #313244;
+        }
+
+        @media (max-width: 900px) {
+            .ide-container { flex-direction: column; }
+            .ide-io-section { width: 100%; height: 50vh; border-top: 2px solid #313244; }
+            body { overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <a href="/" class="navbar-brand" style="color:#fff;">
+        <div class="brand-icon">C</div>
+        CodeChef
+    </a>
+
+    <div style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:#fff;">
+        Online IDE
+    </div>
+
+    <div class="navbar-right">
+        <span th:if="${session.user == null}">
+            <a th:href="@{/login}" class="btn btn-outline btn-sm" style="color:#cdd6f4; border-color:#3d3d4d;">Login</a>
+        </span>
+        <span th:if="${session.user != null}" style="font-size: 14px; font-weight: 600; margin-right: 15px; color:#fff;" th:text="'Hello, ' + ${session.user.username}">User</span>
+    </div>
+</nav>
+
+<!-- ========== IDE MAIN ========== -->
+<div class="ide-container">
+    
+    <!-- LEFT: Code Editor -->
+    <div class="ide-editor-section">
+        <div class="editor-toolbar">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <select class="lang-select" id="languageSelect">
+                    <option value="python">🐍 Python 3</option>
+                    <option value="java">☕ Java</option>
+                    <option value="cpp">⚙️ C++</option>
+                    <option value="c">C</option>
+                </select>
+                <span class="btn btn-outline btn-sm" style="color:#cdd6f4; border-color:#3d3d4d; background:transparent; cursor:pointer;" onclick="resetCode()">↺ Reset</span>
+            </div>
+        </div>
+
+        <textarea class="code-editor" id="codeEditor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+                  placeholder="# Write your custom code here…">
+a, b = map(int, input().split())
+print(a + b)</textarea>
+    </div>
+
+    <!-- RIGHT: Input and Output Pane -->
+    <div class="ide-io-section">
+        
+        <!-- Input section -->
+        <div class="io-box">
+            <div class="io-panel-header">Custom Input</div>
+            <textarea class="io-textarea" id="customInput" placeholder="Enter input here..."></textarea>
+        </div>
+
+        <!-- Output section -->
+        <div class="io-box" style="border-bottom:none;">
+            <div class="io-panel-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Output</span>
+                <span id="execStatus" style="font-size:12px; font-weight:normal; color:#a6adc8;">Ready</span>
+            </div>
+            <textarea class="io-textarea output-textarea" id="outputContent" readonly placeholder="Output will appear here..."></textarea>
+        </div>
+
+        <div class="editor-footer">
+            <button class="btn btn-primary" id="runBtn" onclick="runCode()" style="width: 100%;">
+                ▶ Run Code
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const defaultCode = {
+        python:     "# Update the code below to solve your problem\n\nimport sys\n\ndef main():\n    pass\n\nif __name__ == '__main__':\n    main()",
+        java:       "import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main {\n    public static void main (String[] args) throws java.lang.Exception {\n        // your code goes here\n    }\n}",
+        cpp:        "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    // your code goes here\n    return 0;\n}",
+        c:          "#include <stdio.h>\n\nint main() {\n    // your code goes here\n    return 0;\n}"
+    };
+
+    document.getElementById('languageSelect').addEventListener('change', function() {
+        document.getElementById('codeEditor').value = defaultCode[this.value] || '';
+    });
+
+    function resetCode() {
+        const lang = document.getElementById('languageSelect').value;
+        document.getElementById('codeEditor').value = defaultCode[lang] || '';
+        document.getElementById('outputContent').value = '';
+        document.getElementById('execStatus').textContent = 'Ready';
+        document.getElementById('outputContent').classList.remove('error');
+    }
+
+    function runCode() {
+        const code = document.getElementById('codeEditor').value;
+        const language = document.getElementById('languageSelect').value;
+        const input = document.getElementById('customInput').value || '';
+        
+        const outputCtrl = document.getElementById('outputContent');
+        const statusCtrl = document.getElementById('execStatus');
+        const btn = document.getElementById('runBtn');
+
+        if (!code.trim()) return;
+
+        outputCtrl.value = '';
+        outputCtrl.classList.remove('error');
+        statusCtrl.textContent = '⏳ Running...';
+        btn.disabled = true;
+        btn.innerHTML = 'Running...';
+
+        fetch('/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: code, language: language, input: input })
+        })
+        .then(r => r.text())
+        .then(result => {
+            statusCtrl.textContent = '✅ Finished';
+            outputCtrl.value = result;
+            if(result.includes('Exception') || result.includes('Error')) {
+                outputCtrl.classList.add('error');
+            }
+        })
+        .catch(err => {
+            statusCtrl.textContent = '❌ Error';
+            outputCtrl.classList.add('error');
+            outputCtrl.value = 'Fetch Error: ' + err.message;
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = '▶ Run Code';
+        });
+    }
+
+    // Tab key in textarea
+    document.getElementById('codeEditor').addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+            this.selectionStart = this.selectionEnd = start + 4;
+        }
+    });
+
+    // Run shortcut (Cmd/Ctrl + Enter)
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            runCode();
+        }
+    });
+</script>
+</body>
+</html>

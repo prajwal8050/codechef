@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Compete | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        body {
+            background: #f1f5f9;
+            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+        }
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .contest-badge {
+            background: #ffedd5;
+            color: #f97316;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .timer-val { font-size: 24px; font-weight: 900; color: #0f172a; }
+        .timer-label { font-size: 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; }
+
+        .register-btn {
+            background: #f97316;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .register-btn:hover { background: #ea580c; transform: translateY(-2px); }
+        .register-btn.success { background: #10b981; cursor: default; }
+
+        .toast-notify {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            visibility: hidden;
+        }
+        .toast-notify.show { transform: translateX(-50%) translateY(0); visibility: visible; }
+
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .small-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" style="background: white; border-bottom: 1px solid #e2e8f0;">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand" style="color: #0f172a; font-weight: 900;">
+            <svg width="24" height="24" viewBox="0 0 32 32" style="margin-right:10px;">
+                <rect width="32" height="32" rx="6" fill="#f97316"/>
+                <text x="6" y="24" font-size="22" font-weight="900" fill="white" font-family="Arial">C</text>
+            </svg> CodeChef
+        </a>
+        <ul class="navbar-nav">
+            <li><a th:href="@{/practice}">Practice</a></li>
+            <li><a th:href="@{/compete}" class="active">Compete</a></li>
+            <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a th:href="@{/discuss}">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 1000px; margin-top: 50px; padding-bottom: 100px;">
+    <h1 style="font-size:32px; font-weight:900; color:#0f172a; margin-bottom:10px;">Competitive Programming Arena</h1>
+    <p style="color:#64748b; margin-bottom:40px;">Compete against the world's best programmers and improve your global rating.</p>
+    
+    <div class="main-card">
+        <div style="position:relative; z-index:1;">
+            <span class="contest-badge">Most Popular</span>
+            <h2 style="font-size:32px; font-weight:900; margin:15px 0 10px;">CodeChef Starters 126</h2>
+            <p style="color:#64748b; margin-bottom:25px;">The biggest rated contest of the week. Divisions 1, 2, 3, and 4. Win prizes and certificates!</p>
+            
+            <div style="display:flex; gap:30px; align-items:center;">
+                <div style="display:flex; gap:20px;">
+                    <div style="text-align:center;"><div class="timer-val">12</div><div class="timer-label">Hr</div></div>
+                    <div style="text-align:center;"><div class="timer-val">45</div><div class="timer-label">Min</div></div>
+                    <div style="text-align:center;"><div class="timer-val">30</div><div class="timer-label">Sec</div></div>
+                </div>
+                <button id="register-btn" class="register-btn" onclick="registerUser()">Register Now</button>
+            </div>
+        </div>
+        <div style="position:absolute; right:-50px; bottom:-50px; font-size:200px; opacity:0.04; pointer-events:none;">🏆</div>
+    </div>
+
+    <div class="secondary-grid">
+        <div th:each="c : ${contests}" class="small-card">
+            <div>
+                 <h3 style="font-size:18px; font-weight:800; margin-bottom:5px;" th:text="${c.name}">Contest Name</h3>
+                 <div style="display:flex; gap:10px; font-size:13px; color:#94a3b8; font-weight:700;">
+                      <span th:text="${c.status}" style="color:#10b981;">UPCOMING</span>
+                      <span>• 3 Hours</span>
+                 </div>
+            </div>
+            <a href="#" class="btn btn-outline btn-sm">View Details</a>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast-notify">
+    <span>✅</span> Registered Successfully!
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    function registerUser() {
+        const btn = document.getElementById('register-btn');
+        const toast = document.getElementById('toast');
+        btn.innerHTML = 'Registered ✓';
+        btn.classList.add('success');
+        btn.onclick = null;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>All Submissions | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f1f5f9;">
+
+<nav class="navbar">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <div class="brand-icon">C</div> CodeChef
+        </a>
+    </div>
+</nav>
+
+<div class="page-container" style="max-width: 1000px; margin-top: 50px;">
+    <h1 style="font-size:32px; font-weight:900; color:#0f172a; margin-bottom:10px;">Recent Submissions</h1>
+    <p style="color:#64748b; margin-bottom:40px;">Real-time feed of code submissions from the community.</p>
+
+    <div class="card" style="padding:0; border:none; box-shadow:0 10px 30px rgba(0,0,0,0.02); overflow:hidden; background:white;">
+        <table style="width:100%; border-collapse:collapse; text-align:left;">
+            <thead style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+                <tr>
+                    <th style="padding:20px; font-size:13px; font-weight:800; color:#475569;">USER</th>
+                    <th style="padding:20px; font-size:13px; font-weight:800; color:#475569;">PROBLEM</th>
+                    <th style="padding:20px; font-size:13px; font-weight:800; color:#475569;">RESULT</th>
+                    <th style="padding:20px; font-size:13px; font-weight:800; color:#475569;">LANGUAGE</th>
+                    <th style="padding:20px; font-size:13px; font-weight:800; color:#475569;">TIME</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${submissions}" style="border-bottom:1px solid #f1f5f9;">
+                    <td style="padding:20px; font-weight:700; color:#0f172a;" th:text="${s.user.username}">user</td>
+                    <td style="padding:20px; color:#6366f1; font-weight:600;">
+                        <a th:href="@{'/problem/' + ${s.problem.id}}" th:text="${s.problem.title}" style="color:inherit; text-decoration:none;">problem</a>
+                    </td>
+                    <td style="padding:20px;">
+                        <span th:class="'status-badge status-' + ${s.result.toString().toLowerCase()}" th:text="${s.result}">AC</span>
+                    </td>
+                    <td style="padding:20px; font-weight:600; color:#64748b; font-size:13px;" th:text="${s.language}">C++</td>
+                    <td style="padding:20px; color:#94a3b8; font-size:13px;" th:text="${#temporals.format(s.submissionTime, 'MMM dd, HH:mm')}">date</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

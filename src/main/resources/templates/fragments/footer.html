@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="footer">
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">CodeChef</div>
+            <p>A global competitive programming platform helping developers upskill and connect with top companies.</p>
+            <div class="social-links" style="margin-top: 25px; display: flex; gap: 15px;">
+                <a href="#" style="background: rgba(255,255,255,0.05); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">f</a>
+                <a href="#" style="background: rgba(255,255,255,0.05); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">t</a>
+                <a href="#" style="background: rgba(255,255,255,0.05); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">in</a>
+            </div>
+        </div>
+        <div>
+            <h5>Practice</h5>
+            <ul>
+                <li><a th:href="@{/practice}">Problems</a></li>
+                <li><a th:href="@{/compete}">Contests</a></li>
+                <li><a th:href="@{/ide}">Practice IDE</a></li>
+                <li><a th:href="@{/submissions}">Submissions</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5>Learn</h5>
+            <ul>
+                <li><a th:href="@{/dsa-learning-path}">DSA Learning Path</a></li>
+                <li><a th:href="@{/courses}">Courses</a></li>
+                <li><a th:href="@{/discuss}">Discuss</a></li>
+                <li><a th:href="@{/blog}">Blog</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5>Company</h5>
+            <ul>
+                <li><a th:href="@{/about}">About Us</a></li>
+                <li><a th:href="@{/careers}">Careers</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+                <li><a th:href="@{/terms}">Terms</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2024 CodeChef Clone. Built with Spring Boot &amp; Thymeleaf.</span>
+        <span>Made with ❤️ for Developers</span>
+    </div>
+</footer>
+</body>
+</html>

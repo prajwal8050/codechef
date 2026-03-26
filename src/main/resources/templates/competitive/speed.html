@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Speed Coding | CodeChef Arena</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        .speed-card {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(244, 63, 94, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(249, 115, 22, 0.2);
+            border-radius: 40px;
+            padding: 80px 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 30px 100px rgba(249, 115, 22, 0.15);
+        }
+        .timer-glow {
+            font-size: 100px;
+            font-weight: 900;
+            color: #f97316;
+            text-shadow: 0 0 40px rgba(249, 115, 22, 0.5);
+            margin: 30px 0;
+            font-family: monospace;
+        }
+        h1 { font-size: 48px; font-weight: 900; letter-spacing: -1px; }
+        .btn-start {
+            background: #f97316;
+            color: white;
+            padding: 22px 60px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 20px 40px rgba(249, 115, 22, 0.3);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-start:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 30px 60px rgba(249, 115, 22, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="speed-card">
+        <div style="font-size: 60px;">⚡</div>
+        <h1>Speed Sprints</h1>
+        <p style="color:#94a3b8; margin-top:10px;">5 Problems. 10 Minutes. Pure Adrenaline.</p>
+        
+        <div class="timer-glow">10:00</div>
+
+        <a th:href="@{/practice}" class="btn-start">Start Sprint</a>
+        <div style="margin-top:30px;">
+            <a th:href="@{/}" style="color:#64748b; font-weight:700; text-decoration:none;">Abort</a>
+        </div>
+    </div>
+</body>
+</html>

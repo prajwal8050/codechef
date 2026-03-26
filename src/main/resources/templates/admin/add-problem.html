@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Add Problem | CodeChef Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f1f5f9;">
+
+<div class="page-container" style="max-width: 600px; margin-top: 100px;">
+    <div class="card" style="padding:50px; background:white; border:none; box-shadow:0 10px 40px rgba(0,0,0,0.05); border-radius:30px;">
+        <h1 style="font-size:24px; font-weight:800; margin-bottom:30px;">Add New Problem</h1>
+        <form th:action="@{/admin/problems/save}" method="post">
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Problem Title</label>
+                <input type="text" name="title" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; outline:none; box-sizing:border-box;" required/>
+            </div>
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Difficulty</label>
+                <select name="difficulty" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; background:white; box-sizing:border-box;">
+                    <option value="EASY">Easy</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HARD">Hard</option>
+                </select>
+            </div>
+            <div style="margin-bottom:30px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Description</label>
+                <textarea name="description" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; height:120px; outline:none; resize:none; box-sizing:border-box;" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:15px; font-size:16px;">Create Problem</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

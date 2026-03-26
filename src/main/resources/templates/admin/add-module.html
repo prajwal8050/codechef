@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Add Module | CodeChef Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body style="background:#f1f5f9;">
+
+<div class="page-container" style="max-width: 600px; margin-top: 100px;">
+    <div class="card" style="padding:50px; background:white; border:none; border-radius:30px;">
+        <h1 style="font-size:24px; font-weight:800; margin-bottom:30px;">Add Course Module</h1>
+        <form th:action="@{/admin/modules/save}" method="post">
+            <input type="hidden" name="courseId" th:value="${courseId}"/>
+            
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Module Title</label>
+                <input type="text" name="title" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; outline:none; box-sizing:border-box;" required/>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Order (Index)</label>
+                <input type="number" name="orderIndex" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; outline:none; box-sizing:border-box;" value="1" required/>
+            </div>
+
+            <div style="margin-bottom:30px;">
+                <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Description</label>
+                <textarea name="description" style="width:100%; padding:15px; border-radius:12px; border:1px solid #e2e8f0; height:120px; outline:none; resize:none; box-sizing:border-box;" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:15px; font-size:16px;">Add Module to Course</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

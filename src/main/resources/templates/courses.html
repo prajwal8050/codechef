@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Courses | CodeChef</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f97316'/%3E%3Ctext x='6' y='24' font-size='22' font-weight='900' fill='white' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E"/>
+    <style>
+        body { background: white; color: #0f172a; font-family: 'Inter', sans-serif; }
+        .courses-hero { padding: 80px 24px 40px; text-align: center; background: white; }
+        .courses-hero h1 { font-size: 38px; font-weight: 900; color: #0f172a; margin-bottom: 20px; }
+        .courses-hero p { font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; padding: 0 10px; }
+        .path-title { font-size: 17px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+        .path-title::before { content: ''; width: 4px; height: 18px; background: #f97316; border-radius: 4px; }
+
+        .filter-tabs { display: flex; gap: 12px; }
+        .filter-pill { padding: 9px 24px; border-radius: 50px; border: 1px solid #e2e8f0; background: white; color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; transition: all .2s; }
+        .filter-pill.active { background: #f97316; border-color: #f97316; color: white; }
+
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 35px; }
+        
+        .course-card { background: white; border-radius: 12px; border: 1px solid #f1f5f9; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.03); transition: all .3s ease; display: flex; flex-direction: column; }
+        .course-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.07); }
+        
+        .course-img { padding: 25px 25px 0; background: white; }
+        .course-img img { width: 100%; border-radius: 10px; height: 180px; object-fit: cover; }
+        
+        .course-body { padding: 25px; flex: 1; }
+        .course-body h3 { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px; }
+        .course-body p { font-size: 14px; color: #64748b; line-height: 1.6; margin: 0; }
+        
+        .course-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-top: 1px solid #f8fafc; }
+        .module-badge { color: #94a3b8; font-weight: 600; font-size: 11px; }
+        .start-btn { padding: 8px 18px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; color: #0f172a; font-weight: 800; font-size: 12px; text-decoration: none; }
+        .start-btn:hover { background: #f97316; color: white; border-color: #f97316; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" style="border-bottom: 1px solid #f1f5f9; background: white;">
+    <div style="display:flex; align-items:center;">
+        <a href="/" class="navbar-brand">
+            <svg width="24" height="24" viewBox="0 0 32 32" style="margin-right:10px;">
+                <rect width="32" height="32" rx="6" fill="#f97316"/>
+                <text x="6" y="24" font-size="22" font-weight="900" fill="white" font-family="Arial">C</text>
+            </svg> CodeChef
+        </a>
+        <ul class="navbar-nav">
+            <li><a th:href="@{/practice}">Practice</a></li>
+            <li><a th:href="@{/compete}">Compete</a></li>
+            <li><a th:href="@{/courses}" class="active">Courses</a></li>
+            <li><a th:href="@{/discuss}">Discuss</a></li>
+            <li><a th:href="@{/ide}">IDE</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="courses-hero">
+    <h1>Learn & Master Coding</h1>
+    <p>Structured learning paths, curated by industry experts. Master programming languages and DSA from scratch to advanced.</p>
+</div>
+
+<div class="page-container" style="max-width: 1200px; margin-top: 50px; padding-bottom: 100px;">
+    
+    <div class="section-header">
+        <h2 class="path-title">Recommended Paths</h2>
+        <div class="filter-tabs">
+            <button class="filter-pill active">All Levels</button>
+            <button class="filter-pill">Beginner</button>
+            <button class="filter-pill">Advanced</button>
+        </div>
+    </div>
+
+    <div class="courses-grid">
+        <div th:each="c : ${courses}" class="course-card">
+            <div class="course-img">
+                <img th:src="${c.imagePath != null ? c.imagePath : '/images/dsa_course.png'}" alt="Course Banner"/>
+            </div>
+            <div class="course-body">
+                <h3 th:text="${c.title}">Data Structures & Algorithms</h3>
+                <p th:text="${c.description}">A comprehensive path covering everything from Arrays and Linked Lists to Dynamic Programming and Graphs.</p>
+            </div>
+            <div class="course-footer">
+                <span class="module-badge" th:text="${#lists.size(c.modules)} + ' Modules'">15 Modules</span>
+                <a th:href="@{'/course/' + ${c.id}}" class="start-btn">Start Learning</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}" style="margin-top:100px;"></div>
+
+</body>
+</html>
